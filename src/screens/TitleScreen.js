@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'; // Наш градієнт
 import { COLORS } from '../constants/colors';
 
-const TitleScreen = () => {
+const TitleScreen = ({ navigation }) => {
   return (
     <LinearGradient 
       colors={['#D8E3D2', '#FDD4D4']} 
@@ -21,7 +21,8 @@ const TitleScreen = () => {
           This productive tool is designed to help you better manage your task project-wise conveniently.
         </Text>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}
+            onPress={() => navigation.navigate('Registration')}>
           <Text style={styles.buttonText}>Let's start</Text>
         </TouchableOpacity>
       </View>

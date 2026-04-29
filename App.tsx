@@ -1,18 +1,13 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-// import TitleScreen from './src/screens/TitleScreen';
-// import RegistrationScreen from './src/screens/RegistrationScreen';
-//  import HomeScreen from './src/screens/HomeScreen';
-// import AddTaskScreen from './src/screens/AddTaskScreen';
-import TasksListScreen from './src/screens/TasksListScreen';
-
-
-
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './src/navigation/AppNavigator'; 
 const App = () => {
-  // return <TitleScreen />;
-  // return <RegistrationScreen />;
-  // return <HomeScreen />;
-  // return <AddTaskScreen/>;
-  return <TasksListScreen />;
+  return (
+    <NavigationContainer>
+      <AppNavigator />
+    </NavigationContainer>
+  );
 };
 
 export default App;
