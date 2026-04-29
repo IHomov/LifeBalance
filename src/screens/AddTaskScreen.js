@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { COLORS } from '../constants/colors';
 import FormItem from '../components/FormItem';
+import { SCREENS } from '../constants/screens';      
 
 const AddTaskScreen = ({ navigation }) => {
   return (
@@ -20,7 +21,7 @@ const AddTaskScreen = ({ navigation }) => {
     if (navigation.canGoBack()) {
       navigation.goBack(); 
     } else {
-      navigation.navigate('Home'); 
+      navigation.navigate(SCREENS.HOME); 
     }
   }}
 >

@@ -4,6 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import CustomInput from '../components/CustomInput';
 import { COLORS } from '../constants/colors';
 import { KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { SCREENS } from '../constants/screens';
 
 const RegistrationScreen = ({ navigation }) => {
   const [login, setLogin] = useState('');
@@ -42,7 +43,7 @@ const RegistrationScreen = ({ navigation }) => {
 
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.replace('Main')}
+              onPress={() => navigation.replace(SCREENS.MAIN)}
             >
               <Text style={styles.buttonText}>Registration</Text>
             </TouchableOpacity>

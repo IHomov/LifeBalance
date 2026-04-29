@@ -3,19 +3,18 @@ import { View, Text, StyleSheet } from 'react-native';
 import { COLORS } from '../constants/colors';
 import { Pressable } from 'react-native';
 
-
 const TaskCard = ({ title, subTitle, progress, color, onPress }) => {
-return (
-    <Pressable 
+  return (
+    <Pressable
       onPress={onPress}
       style={({ pressed }) => [
         styles.card,
-        { 
-          borderLeftColor: color, 
+        {
+          borderLeftColor: color,
           borderLeftWidth: 5,
-          opacity: pressed ? 0.7 : 1, 
-          transform: [{ scale: pressed ? 0.98 : 1 }] 
-        }
+          opacity: pressed ? 0.7 : 1,
+          transform: [{ scale: pressed ? 0.98 : 1 }],
+        },
       ]}
     >
       <View>
@@ -42,11 +41,10 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 5,
-   
   },
   title: { fontSize: 16, fontWeight: 'bold', color: COLORS.textMain },
   subTitle: { fontSize: 12, color: '#A9A9A9', marginTop: 4 },
-  progressText: { fontWeight: 'bold', fontSize: 14 }
+  progressText: { fontWeight: 'bold', fontSize: 14 },
 });
 
 export default TaskCard;

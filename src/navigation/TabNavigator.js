@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text } from 'react-native';
+import {Text} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import TasksListScreen from '../screens/TasksListScreen';
 import AddTaskScreen from '../screens/AddTaskScreen';
@@ -16,13 +16,29 @@ const TabNavigator = () => {
         headerShown: false,
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: 'gray',
-        tabBarStyle: { height: 60, paddingBottom: 10 }
+        tabBarStyle: { height: 60, paddingBottom: 10 },
       }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: '🏠' }} />
-      <Tab.Screen name="Tasks" component={TasksListScreen} options={{ tabBarLabel: '📅' }} />
-      <Tab.Screen name="Add" component={AddTaskScreen} options={{ tabBarLabel: '➕' }} />
-      <Tab.Screen name="Mood" component={MoodTrackerScreen} options={{ tabBarLabel: '📊' }} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ tabBarLabel: '🏠' }}
+      />
+      <Tab.Screen
+        name="Tasks"
+        component={TasksListScreen}
+        options={{ tabBarLabel: '📅' }}
+      />
+      <Tab.Screen
+        name="Add"
+        component={AddTaskScreen}
+        options={{ tabBarLabel: '➕' }}
+      />
+      <Tab.Screen
+        name="Mood"
+        component={MoodTrackerScreen}
+        options={{ tabBarLabel: '📊' }}
+      />
     </Tab.Navigator>
   );
 };

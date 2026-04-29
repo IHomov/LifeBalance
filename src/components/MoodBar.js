@@ -6,7 +6,12 @@ const MoodBar = ({ label, percentage, color }) => {
   return (
     <View style={styles.container}>
       <View style={styles.barBackground}>
-        <View style={[styles.barFill, { height: `${percentage}%`, backgroundColor: color }]} />
+        <View
+          style={[
+            styles.barFill,
+            { height: `${percentage}%`, backgroundColor: color },
+          ]}
+        />
       </View>
       <Text style={styles.label}>{label}</Text>
       <Text style={styles.percentText}>{percentage}%</Text>
@@ -26,7 +31,7 @@ const styles = StyleSheet.create({
   },
   barFill: { width: '100%', borderRadius: 10 },
   label: { marginTop: 10, fontWeight: 'bold', color: COLORS.textMain },
-  percentText: { fontSize: 12, color: '#A0AEC0', marginTop: 4 }
+  percentText: { fontSize: 12, color: '#A0AEC0', marginTop: 4 },
 });
 
 export default MoodBar;

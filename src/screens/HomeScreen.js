@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { COLORS } from '../constants/colors';
 import TaskCard from '../components/TaskCard';
+import { SCREENS } from '../constants/screens';
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -24,7 +25,12 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Main Promo Card */}
       <View style={styles.promoCard}>
-        <TouchableOpacity style={styles.viewBtn} onPress={() => navigation.navigate('AddTask', { groupName: 'General' })}>
+        <TouchableOpacity
+          style={styles.viewBtn}
+          onPress={() =>
+            navigation.navigate(SCREENS.ADD_TASK, { groupName: 'General' })
+          }
+        >
           <Text style={styles.viewBtnText}>View Task</Text>
         </TouchableOpacity>
         <Text style={styles.promoPercent}>85%</Text>

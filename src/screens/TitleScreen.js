@@ -2,27 +2,24 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'; // Наш градієнт
 import { COLORS } from '../constants/colors';
+import { SCREENS } from '../constants/screens';
 
 const TitleScreen = ({ navigation }) => {
   return (
-    <LinearGradient 
-      colors={['#D8E3D2', '#FDD4D4']} 
-      style={styles.container}
-    >
+    <LinearGradient colors={['#D8E3D2', '#FDD4D4']} style={styles.container}>
       <View style={styles.content}>
-       
-        <Image 
-          source={{ uri: '../assets/homeimg.png' }} 
-          style={styles.image} 
-        />
-        
+        <Image source={{ uri: '../assets/homeimg.png' }} style={styles.image} />
+
         <Text style={styles.title}>LifeBalance</Text>
         <Text style={styles.description}>
-          This productive tool is designed to help you better manage your task project-wise conveniently.
+          This productive tool is designed to help you better manage your task
+          project-wise conveniently.
         </Text>
 
-        <TouchableOpacity style={styles.button}
-            onPress={() => navigation.navigate('Registration')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate(SCREENS.REGISTRATION)}
+        >
           <Text style={styles.buttonText}>Let's start</Text>
         </TouchableOpacity>
       </View>
@@ -32,24 +29,24 @@ const TitleScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { 
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    padding: 20 
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
   image: { width: 300, height: 300, marginBottom: 30 },
-  title: { 
-    fontSize: 32, 
-    fontWeight: 'bold', 
-    color: COLORS.textMain, 
-    marginBottom: 15 
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: COLORS.textMain,
+    marginBottom: 15,
   },
-  description: { 
-    textAlign: 'center', 
-    color: '#7C7C7C', 
-    lineHeight: 22, 
-    marginBottom: 40 
+  description: {
+    textAlign: 'center',
+    color: '#7C7C7C',
+    lineHeight: 22,
+    marginBottom: 40,
   },
   button: {
     backgroundColor: COLORS.primary,

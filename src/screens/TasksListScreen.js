@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { COLORS } from '../constants/colors';
 import TaskListItem from '../components/TaskListItem';
+import { SCREENS } from '../constants/screens';
 
 const TasksListScreen = ({ navigation }) => {
   const dates = [19, 20, 21, 22, 23, 24, 25];
@@ -20,7 +21,7 @@ const TasksListScreen = ({ navigation }) => {
           if (navigation.canGoBack()) {
             navigation.goBack();
           } else {
-            navigation.navigate('Home');
+            navigation.navigate(SCREENS.HOME);
           }
         }}
       >
@@ -86,19 +87,19 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 60,
   },
-    headerTitle: {
+  headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: COLORS.textMain,
     textAlign: 'center',
     marginBottom: 30,
   },
-   backBtn: {
-    position: 'absolute',    
-  left: 10,                
-  top: 55,                
-  zIndex: 1,               
-  padding: 10,
+  backBtn: {
+    position: 'absolute',
+    left: 10,
+    top: 55,
+    zIndex: 1,
+    padding: 10,
   },
   backText: {
     fontSize: 15,

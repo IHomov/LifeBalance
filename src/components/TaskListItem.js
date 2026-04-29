@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 15, fontWeight: '600', color: COLORS.textMain },
   time: { fontSize: 12, color: '#A0AEC0', marginTop: 4 },
   statusBadge: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 10 },
-  statusText: { fontSize: 11, fontWeight: 'bold' }
+  statusText: { fontSize: 11, fontWeight: 'bold' },
 });
 
 export default TaskListItem;

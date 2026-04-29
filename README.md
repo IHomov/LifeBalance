@@ -95,3 +95,35 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+
+# 🌿 LifeBalance - Task & Mood Tracker
+
+LifeBalance is a mobile application built with React Native designed to help users organize their daily tasks and monitor their emotional well-being. This project focuses on implementing a robust navigation structure and data flow.
+
+## 🚀 Features
+- **Onboarding Flow**: Clean and minimal Title and Registration screens.
+- **Dynamic Task Management**: Users can navigate to specific task groups (Work, Study, Kids).
+- **Navigation Architecture**: A seamless blend of Stack and Bottom Tab navigation.
+- **Custom UI Components**: Hand-crafted headers, specialized task cards, and interactive buttons.
+
+## 🛠 Navigation Structure
+The app utilizes **React Navigation v6/v7**:
+1. **Stack Navigator**: Handles the authentication and onboarding flow (Title -> Registration -> Main).
+2. **Bottom Tab Navigator**: Provides quick access to the core features:
+   - **Home**: Dashboard with task progress.
+   - **Tasks**: List of current activities.
+   - **Add Task**: Dynamic form with parameter handling.
+   - **Mood**: Emotional state tracker.
+
+### Key Technical Implementation:
+- **Route Params**: Passing `groupName` from the Home dashboard to the Add Task form to pre-fill data.
+- **Header Customization**: Fully custom headers with `navigation.goBack()` logic and absolute positioning for title centering.
+- **Clean Code**: Screen names managed via a central `SCREENS` constant file.
+- **Modern Interactions**: Transitioned from `TouchableOpacity` to `Pressable` for better haptic feedback and performance.
+
+## 💻 Tech Stack
+- **Framework**: React Native
+- **Navigation**: @react-navigation/native, stack, bottom-tabs
+- **Icons/Styling**: Custom StyleSheet architecture
+
