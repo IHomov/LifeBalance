@@ -14,9 +14,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
-      <View style={styles.header}>
-        
-      </View>
+      <View style={styles.header} />
       <View style={styles.header}>
         <View>
           <Text style={styles.greeting}>Hello, Iris</Text>
@@ -26,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Main Promo Card */}
       <View style={styles.promoCard}>
-        <TouchableOpacity style={styles.viewBtn}>
+        <TouchableOpacity style={styles.viewBtn} onPress={() => navigation.navigate('AddTask', { groupName: 'General' })}>
           <Text style={styles.viewBtnText}>View Task</Text>
         </TouchableOpacity>
         <Text style={styles.promoPercent}>85%</Text>
@@ -38,12 +36,14 @@ const HomeScreen = ({ navigation }) => {
         subTitle="Finish task on week"
         progress={45}
         color="#1E67FF"
+        onPress={() => navigation.navigate('AddTask', { groupName: 'Work' })}
       />
       <TaskCard
         title="Study"
         subTitle="Exam last week home"
         progress={80}
         color="#FF6B6B"
+        onPress={() => navigation.navigate('AddTask', { groupName: 'Study' })}
       />
 
       <Text style={styles.sectionTitle}>Task Groups</Text>
@@ -52,18 +52,21 @@ const HomeScreen = ({ navigation }) => {
         subTitle="22 Tasks"
         progress={70}
         color="#4ECDC4"
+        onPress={() => navigation.navigate('AddTask', { groupName: 'Work' })}
       />
       <TaskCard
         title="Study"
         subTitle="12 Tasks"
         progress={30}
         color="#FFD93D"
+        onPress={() => navigation.navigate('AddTask', { groupName: 'Study' })}
       />
       <TaskCard
         title="Kids"
         subTitle="10 Tasks"
         progress={20}
         color="#6C5CE7"
+        onPress={() => navigation.navigate('AddTask', { groupName: 'Kids' })}
       />
 
       <View style={styles.bottomSpacer} />
