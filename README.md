@@ -127,3 +127,6 @@ The app utilizes **React Navigation v6/v7**:
 - **Navigation**: @react-navigation/native, stack, bottom-tabs
 - **Icons/Styling**: Custom StyleSheet architecture
 
+
+## 💻 Video-demonstration
+video.mp4
