@@ -11,7 +11,7 @@ import {
 import { COLORS } from '../constants/colors';
 import TaskListItem from '../components/TaskListItem';
 import { SCREENS } from '../constants/screens';
-import { fetchData } from '../services/api';
+import { fetchBalanceTips } from '../services/api';
 
 const TasksListScreen = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -20,8 +20,9 @@ const TasksListScreen = ({ navigation }) => {
 
   const dates = [19, 20, 21, 22, 23, 24, 25];
   useEffect(() => {
-    fetchData()
+    fetchBalanceTips()
       .then(result => {
+        console.log("Ось мої дані з API:", result);
         setData(result);
         setLoading(false);
       })
@@ -55,23 +56,26 @@ const TasksListScreen = ({ navigation }) => {
       </TouchableOpacity>
       <Text style={styles.headerTitle}>Today's Tasks</Text>
 
-      <View style={styles.calendarContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          style={styles.calendar}
-          {dates.map(date => (
-            <TouchableOpacity
-              key={date}
-              style={[styles.dateCard, date === 25 && styles.activeDateCard]}
-            >
-              <Text
-                style={[styles.dateText, date === 25 && styles.activeDateText]}
-              >
-                {date}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
+     <View style={styles.calendarContainer}>
+  <ScrollView 
+    horizontal 
+    showsHorizontalScrollIndicator={false}
+    style={styles.calendar} 
+  >
+    {dates.map(date => (
+      <TouchableOpacity
+        key={date}
+        style={[styles.dateCard, date === 25 && styles.activeDateCard]}
+      >
+        <Text
+          style={[styles.dateText, date === 25 && styles.activeDateText]}
+        >
+          {date}
+        </Text>
+      </TouchableOpacity>
+    ))}
+  </ScrollView>
+</View>
 
       {/* Фільтри */}
       <View style={styles.filters}>
@@ -153,7 +157,8 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   calendarContainer: {
-    maxHeight: 60,
+    maxHeight: 90,
+    marginBottom: 10,
   },
 });
 
