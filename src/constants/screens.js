@@ -6,4 +6,5 @@ export const SCREENS = {
   ADD_TASK: 'AddTask',
   TASKS_LIST: 'TasksList',
   MOOD_TRACKER: 'MoodTracker',
+  DETAILS: 'TaskDetails',
 };

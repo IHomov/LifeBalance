@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants/colors';
 
-const TaskListItem = ({ title, time, status, color }) => {
+const TaskListItem = ({ title, time, status, color, onPress }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container}
+      onPress={onPress}
+      activeOpacity={0.7}
+      >
       <View style={styles.textGroup}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.time}>{time}</Text>
@@ -12,7 +15,7 @@ const TaskListItem = ({ title, time, status, color }) => {
       <View style={[styles.statusBadge, { backgroundColor: color + '20' }]}>
         <Text style={[styles.statusText, { color: color }]}>{status}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -25,6 +28,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
   },
   title: { fontSize: 15, fontWeight: '600', color: COLORS.textMain },
   time: { fontSize: 12, color: '#A0AEC0', marginTop: 4 },

@@ -9,6 +9,7 @@ import TasksListScreen from '../screens/TasksListScreen';
 import MoodTrackerScreen from '../screens/MoodTrackerScreen';
 import TabNavigator from './TabNavigator';
 import { SCREENS } from '../constants/screens';
+import TaskDetailsScreen from '../screens/TaskDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ const AppNavigator = () => {
       <Stack.Screen name={SCREENS.TASKS_LIST} component={TasksListScreen} />
       <Stack.Screen name={SCREENS.MOOD_TRACKER} component={MoodTrackerScreen} />
       <Stack.Screen name={SCREENS.MAIN} component={TabNavigator} />
+      <Stack.Screen name={SCREENS.DETAILS} component={TaskDetailsScreen} />
     </Stack.Navigator>
   );
 };
