@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { ThemeContext } from '../context/ThemeContext'; 
 import {
   View,
   Text,
@@ -17,33 +18,49 @@ const TasksListScreen = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Дістаємо тему з контексту
+  const { isDark, theme, toggleTheme } = useContext(ThemeContext);
 
   const dates = [19, 20, 21, 22, 23, 24, 25];
+
   useEffect(() => {
     fetchBalanceTips()
       .then(result => {
-        console.log("Ось мої дані з API:", result);
         setData(result);
         setLoading(false);
       })
       .catch(err => {
-        console.error(err);
         setError('Failed to fetch data');
         setLoading(false);
       });
   }, []);
+
   const renderTask = ({ item }) => (
     <TaskListItem
       title={item.title}
       time="Flexible time"
       status={item.completed ? 'Complete' : 'To do'}
+      // Можна передавати колір тексту з теми у компонент
       color={item.completed ? '#48BB78' : '#4299E1'}
       onPress={() => navigation.navigate(SCREENS.DETAILS, { itemId: item.id })}
     />
   );
 
   return (
-    <View style={styles.container}>
+    // 1. Динамічний фон контейнера
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      
+      {/* Кнопка перемикання теми */}
+      <TouchableOpacity
+        style={[styles.themeBtn, { backgroundColor: theme.accent }]}
+        onPress={toggleTheme}
+      >
+        <Text style={{ color: '#FFF', fontWeight: 'bold' }}>
+          {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
+        </Text>
+      </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.backBtn}
         onPress={() =>
@@ -52,41 +69,42 @@ const TasksListScreen = ({ navigation }) => {
             : navigation.navigate(SCREENS.HOME)
         }
       >
-        <Text style={styles.backText}>‹ Back</Text>
+        {/* 2. Динамічний колір кнопки назад */}
+        <Text style={[styles.backText, { color: theme.accent }]}>‹ Back</Text>
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>Today's Tasks</Text>
 
-     <View style={styles.calendarContainer}>
-  <ScrollView 
-    horizontal 
-    showsHorizontalScrollIndicator={false}
-    style={styles.calendar} 
-  >
-    {dates.map(date => (
-      <TouchableOpacity
-        key={date}
-        style={[styles.dateCard, date === 25 && styles.activeDateCard]}
-      >
-        <Text
-          style={[styles.dateText, date === 25 && styles.activeDateText]}
-        >
-          {date}
-        </Text>
-      </TouchableOpacity>
-    ))}
-  </ScrollView>
-</View>
+      {/* 3. Динамічний колір заголовка */}
+      <Text style={[styles.headerTitle, { color: theme.text }]}>Today's Tasks</Text>
 
-      {/* Фільтри */}
+      <View style={styles.calendarContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {dates.map(date => (
+            <TouchableOpacity
+              key={date}
+              // 4. Колір карток календаря
+              style={[
+                styles.dateCard, 
+                { backgroundColor: isDark ? '#2D3748' : '#EDF2F7' },
+                date === 25 && { backgroundColor: theme.accent }
+              ]}
+            >
+              <Text style={[styles.dateText, { color: theme.text }, date === 25 && { color: '#FFF' }]}>
+                {date}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
       <View style={styles.filters}>
-        <Text style={[styles.filterBtn, styles.activeFilter]}>All</Text>
+        <Text style={[styles.filterBtn, styles.activeFilter, { color: theme.accent, borderBottomColor: theme.accent }]}>All</Text>
         <Text style={styles.filterBtn}>To do</Text>
         <Text style={styles.filterBtn}>In Progress</Text>
         <Text style={styles.filterBtn}>Complete</Text>
       </View>
 
       {loading ? (
-        <ActivityIndicator size="large" color={COLORS.primary} />
+        <ActivityIndicator size="large" color={theme.accent} />
       ) : error ? (
         <Text style={styles.errorText}>{error}</Text>
       ) : (
@@ -105,30 +123,36 @@ const TasksListScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
     paddingHorizontal: 20,
     paddingTop: 60,
   },
+  themeBtn: {
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: 'flex-end',
+    marginBottom: 10,
+  },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: COLORS.textMain,
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
   },
   backBtn: {
     position: 'absolute',
     left: 10,
-    top: 55,
+    top: 65,
     zIndex: 1,
     padding: 10,
   },
   backText: {
-    fontSize: 15,
-    color: COLORS.primary,
-    lineHeight: 40,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-  calendar: { flexDirection: 'row', marginBottom: 30, maxHeight: 60 },
+  calendarContainer: {
+    height: 70,
+    marginBottom: 20,
+  },
   dateCard: {
     width: 45,
     height: 55,
@@ -136,11 +160,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     borderRadius: 15,
-    backgroundColor: '#EDF2F7',
   },
-  activeDateCard: { backgroundColor: COLORS.primary },
-  dateText: { color: COLORS.textMain, fontWeight: '600' },
-  activeDateText: { color: COLORS.white },
+  dateText: { fontWeight: '600' },
   filters: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -148,17 +169,11 @@ const styles = StyleSheet.create({
   },
   filterBtn: { color: '#A0AEC0', fontSize: 13, fontWeight: '500' },
   activeFilter: {
-    color: COLORS.primary,
     borderBottomWidth: 2,
-    borderBottomColor: COLORS.primary,
   },
   errorText: { color: 'red', textAlign: 'center', marginTop: 20 },
   flatListContainer: {
     paddingBottom: 40,
-  },
-  calendarContainer: {
-    maxHeight: 90,
-    marginBottom: 10,
   },
 });
 
