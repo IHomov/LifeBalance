@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {setTasks, removeItem} from '../redux/slices/tasksSlice';
 import { ThemeContext } from '../context/ThemeContext'; 
 import {
   View,
@@ -15,43 +17,55 @@ import { SCREENS } from '../constants/screens';
 import { fetchBalanceTips } from '../services/api';
 
 const TasksListScreen = ({ navigation }) => {
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const tasks = useSelector(state => state.tasks.items);
+ 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // Дістаємо тему з контексту
+ 
   const { isDark, theme, toggleTheme } = useContext(ThemeContext);
 
   const dates = [19, 20, 21, 22, 23, 24, 25];
 
-  useEffect(() => {
+ useEffect(() => {
     fetchBalanceTips()
       .then(result => {
-        setData(result);
+        dispatch(setTasks(result)); 
         setLoading(false);
       })
       .catch(err => {
         setError('Failed to fetch data');
         setLoading(false);
       });
-  }, []);
+  }, [dispatch]);
 
   const renderTask = ({ item }) => (
-    <TaskListItem
-      title={item.title}
-      time="Flexible time"
-      status={item.completed ? 'Complete' : 'To do'}
-      // Можна передавати колір тексту з теми у компонент
-      color={item.completed ? '#48BB78' : '#4299E1'}
-      onPress={() => navigation.navigate(SCREENS.DETAILS, { itemId: item.id })}
-    />
+    <View style={styles.taskRow}>
+      <View style={{ flex: 1 }}>
+        <TaskListItem
+          title={item.title}
+          time="Flexible time"
+          status={item.completed ? 'Complete' : 'To do'}
+          color={item.completed ? '#48BB78' : '#4299E1'}
+          onPress={() => navigation.navigate(SCREENS.DETAILS, { itemId: item.id })}
+        />
+      </View>
+      
+   
+      <TouchableOpacity 
+        onPress={() => dispatch(removeItem(item.id))}
+        style={styles.deleteButton}
+      >
+        <Text style={styles.deleteIcon}>🗑️</Text>
+      </TouchableOpacity>
+    </View>
   );
 
   return (
-    // 1. Динамічний фон контейнера
+    
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       
-      {/* Кнопка перемикання теми */}
+    
       <TouchableOpacity
         style={[styles.themeBtn, { backgroundColor: theme.accent }]}
         onPress={toggleTheme}
@@ -69,11 +83,11 @@ const TasksListScreen = ({ navigation }) => {
             : navigation.navigate(SCREENS.HOME)
         }
       >
-        {/* 2. Динамічний колір кнопки назад */}
+       
         <Text style={[styles.backText, { color: theme.accent }]}>‹ Back</Text>
       </TouchableOpacity>
 
-      {/* 3. Динамічний колір заголовка */}
+     
       <Text style={[styles.headerTitle, { color: theme.text }]}>Today's Tasks</Text>
 
       <View style={styles.calendarContainer}>
@@ -81,7 +95,7 @@ const TasksListScreen = ({ navigation }) => {
           {dates.map(date => (
             <TouchableOpacity
               key={date}
-              // 4. Колір карток календаря
+              
               style={[
                 styles.dateCard, 
                 { backgroundColor: isDark ? '#2D3748' : '#EDF2F7' },
@@ -109,7 +123,7 @@ const TasksListScreen = ({ navigation }) => {
         <Text style={styles.errorText}>{error}</Text>
       ) : (
         <FlatList
-          data={data}
+          data={tasks}
           renderItem={renderTask}
           keyExtractor={item => item.id.toString()}
           showsVerticalScrollIndicator={false}
@@ -174,6 +188,20 @@ const styles = StyleSheet.create({
   errorText: { color: 'red', textAlign: 'center', marginTop: 20 },
   flatListContainer: {
     paddingBottom: 40,
+  },
+  taskRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  deleteButton: {
+    marginLeft: 10,
+    padding: 10,
+    backgroundColor: '#FED7D7', 
+    borderRadius: 8,
+  },
+  deleteIcon: {
+    fontSize: 18,
   },
 });
 
