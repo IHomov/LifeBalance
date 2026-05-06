@@ -163,3 +163,14 @@ This phase of the project focused on core task management functionality, global 
 * **Redux Toolkit** (State Management)
 * **React Navigation** (Routing)
 * **Context API** (Theming)
+
+<img width="467" height="890" alt="Dark Thema" src="https://github.com/user-attachments/assets/eabae473-0656-49ba-a1e4-74f3b1e3ba11" />
+<img width="497" height="895" alt="Marked as Complete" src="https://github.com/user-attachments/assets/84517b4a-638d-4024-b3c0-c79cc28853d6" />
+<img width="470" height="872" alt="Light Thema" src="https://github.com/user-attachments/assets/81ca3514-a521-4440-b5cd-2f0b4bc96e38" />
+<img width="480" height="891" alt="deleted completed Thema" src="https://github.com/user-attachments/assets/65199cc1-a8f1-4caf-9e1b-a475a2532e76" />
+
+
+https://github.com/user-attachments/assets/b210365a-6e07-47ce-9a9f-79bfe7167dc3
+
+
+
