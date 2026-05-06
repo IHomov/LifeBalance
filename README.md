@@ -130,3 +130,36 @@ The app utilizes **React Navigation v6/v7**:
 
 ## 💻 Video-demonstration
 video.mp4
+
+## 🚀 Homework: Redux, Context API, and Navigation
+
+This phase of the project focused on core task management functionality, global state handling, and a flexible user interface.
+
+### ✅ Features Implemented:
+
+1.  **Redux State Management**:
+    * Created `tasksSlice` to manage the global state of the task list.
+    * **Toggle Status**: Implemented logic to switch task status between "To do" and "Complete" using `dispatch`.
+    * **Remove Item**: Users can delete tasks from the list, updating the global state instantly.
+    * Integrated external API data fetching with Redux store synchronization.
+
+2.  **Context API (Global Theming)**:
+    * Developed a `ThemeProvider` to toggle between **Light** and **Dark** modes.
+    * Applied theme colors (background, text, accent) globally across all screens using `useContext`.
+
+3.  **Navigation & Interaction**:
+    * Set up `Stack Navigator` for seamless transitions between the List and Details screens.
+    * **onPress**: Handles status toggling.
+    * **onLongPress**: Triggers navigation to the `TaskDetailsScreen`, passing the `itemId` as a parameter.
+
+4.  **UI/UX & Layout Fixes**:
+    * Built a custom, reusable `TaskListItem` component with a responsive Flexbox layout.
+    * Fixed a critical layout bug where long task titles would push the status badge off-screen.
+    * Used `flex: 1` and `numberOfLines={2}` to ensure a "bulletproof" UI that adapts to any content length.
+    * Added `ActivityIndicator` for better user experience during data loading.
+
+### 🛠 Tech Stack used:
+* **React Native** (Core)
+* **Redux Toolkit** (State Management)
+* **React Navigation** (Routing)
+* **Context API** (Theming)
