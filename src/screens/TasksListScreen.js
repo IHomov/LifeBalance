@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {setTasks, removeItem} from '../redux/slices/tasksSlice';
-import { ThemeContext } from '../context/ThemeContext'; 
+import {
+  setTasks,
+  removeItem,
+  toggleTaskStatus,
+} from '../redux/slices/tasksSlice';
+import { ThemeContext } from '../context/ThemeContext';
 import {
   View,
   Text,
@@ -19,58 +23,60 @@ import { fetchBalanceTips } from '../services/api';
 const TasksListScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const tasks = useSelector(state => state.tasks.items);
- 
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
- 
+
   const { isDark, theme, toggleTheme } = useContext(ThemeContext);
 
   const dates = [19, 20, 21, 22, 23, 24, 25];
 
- useEffect(() => {
+  useEffect(() => {
     fetchBalanceTips()
       .then(result => {
-        dispatch(setTasks(result)); 
+        dispatch(setTasks(result));
         setLoading(false);
       })
       .catch(err => {
+        console.error(err);
         setError('Failed to fetch data');
         setLoading(false);
       });
   }, [dispatch]);
 
   const renderTask = ({ item }) => (
-    <View style={styles.taskRow}>
-      <View style={{ flex: 1 }}>
-        <TaskListItem
-          title={item.title}
-          time="Flexible time"
-          status={item.completed ? 'Complete' : 'To do'}
-          color={item.completed ? '#48BB78' : '#4299E1'}
-          onPress={() => navigation.navigate(SCREENS.DETAILS, { itemId: item.id })}
-        />
-      </View>
-      
-   
-      <TouchableOpacity 
-        onPress={() => dispatch(removeItem(item.id))}
-        style={styles.deleteButton}
-      >
-        <Text style={styles.deleteIcon}>🗑️</Text>
-      </TouchableOpacity>
+  <View style={styles.taskRow}>
+    <View style={styles.taskItemContainer}>
+      <TaskListItem
+        title={item.title}
+        time="Flexible time"
+        status={item.completed ? 'Complete' : 'To do'}
+        color={item.completed ? COLORS.success : COLORS.inProgress}
+        
+        onPress={() => {
+          console.log('Клік отримано всередині ListItem! ID:', item.id);
+          dispatch(toggleTaskStatus(item.id));
+        }}
+        onLongPress={() => {
+          console.log('Довгий клік отримано!');
+          navigation.navigate(SCREENS.DETAILS, { itemId: item.id });
+        }}
+      />
     </View>
-  );
+
+    <TouchableOpacity onPress={() => dispatch(removeItem(item.id))} style={styles.deleteButton}>
+      <Text style={styles.deleteIcon}>🗑️</Text>
+    </TouchableOpacity>
+  </View>
+);
 
   return (
-    
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      
-    
       <TouchableOpacity
         style={[styles.themeBtn, { backgroundColor: theme.accent }]}
         onPress={toggleTheme}
       >
-        <Text style={{ color: '#FFF', fontWeight: 'bold' }}>
+        <Text style={[styles.themeBtnText, { color: theme.text }]}>
           {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
         </Text>
       </TouchableOpacity>
@@ -83,26 +89,31 @@ const TasksListScreen = ({ navigation }) => {
             : navigation.navigate(SCREENS.HOME)
         }
       >
-       
         <Text style={[styles.backText, { color: theme.accent }]}>‹ Back</Text>
       </TouchableOpacity>
 
-     
-      <Text style={[styles.headerTitle, { color: theme.text }]}>Today's Tasks</Text>
+      <Text style={[styles.headerTitle, { color: theme.text }]}>
+        Today's Tasks
+      </Text>
 
       <View style={styles.calendarContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {dates.map(date => (
             <TouchableOpacity
               key={date}
-              
               style={[
-                styles.dateCard, 
-                { backgroundColor: isDark ? '#2D3748' : '#EDF2F7' },
-                date === 25 && { backgroundColor: theme.accent }
+                styles.dateCard,
+                { backgroundColor: isDark ? COLORS.darkThema : COLORS.lightThema },
+                date === 25 && { backgroundColor: theme.accent },
               ]}
             >
-              <Text style={[styles.dateText, { color: theme.text }, date === 25 && { color: '#FFF' }]}>
+              <Text
+                style={[
+                  styles.dateText,
+                  { color: theme.text },
+                  date === 25 && { color: COLORS.white },
+                ]}
+              >
                 {date}
               </Text>
             </TouchableOpacity>
@@ -111,7 +122,15 @@ const TasksListScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.filters}>
-        <Text style={[styles.filterBtn, styles.activeFilter, { color: theme.accent, borderBottomColor: theme.accent }]}>All</Text>
+        <Text
+          style={[
+            styles.filterBtn,
+            styles.activeFilter,
+            { color: theme.accent, borderBottomColor: theme.accent },
+          ]}
+        >
+          All
+        </Text>
         <Text style={styles.filterBtn}>To do</Text>
         <Text style={styles.filterBtn}>In Progress</Text>
         <Text style={styles.filterBtn}>Complete</Text>
@@ -193,12 +212,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+    width: '100%',
+    paddingHorizontal: 0,
+   
+  },
+  taskItemContainer: {
+    flex: 1,
+    
   },
   deleteButton: {
+    width: 45,
     marginLeft: 10,
     padding: 10,
-    backgroundColor: '#FED7D7', 
+    backgroundColor: '#FED7D7',
     borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   deleteIcon: {
     fontSize: 18,
