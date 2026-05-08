@@ -1,28 +1,32 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants/colors';
 
-const TaskListItem = ({ title, time, status, color, onPress, onLongPress }) => {
+const TaskListItem = memo(({ title, time, status, color, onPress, onLongPress }) => {
+  // console.log(`Rendering task: ${title}`); // Лог для перевірки оптимізації
+
   return (
-    <TouchableOpacity style={styles.container}
+    <TouchableOpacity 
+      style={styles.container}
       onPress={onPress}
       onLongPress={onLongPress}
       activeOpacity={0.7}
-      >
+    >
       <View style={styles.textContainer}>
-        <Text style={styles.title}numberOfLines={2}>
+        <Text style={styles.title} numberOfLines={2}>
           {title}
         </Text>
         <Text style={styles.time}>{time}</Text>
       </View>
+      
       <View style={styles.statusContainer}>
-      <View style={[styles.statusBadge, { backgroundColor: color + '20' }]}>
-        <Text style={[styles.statusText, { color: color }]}>{status}</Text>
-      </View>
+        <View style={[styles.statusBadge, { backgroundColor: color + '20' }]}>
+          <Text style={[styles.statusText, { color: color }]}>{status}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
-};
+}); // <-- Зверни увагу: тут має бути }); (закриваємо memo)
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +48,6 @@ const styles = StyleSheet.create({
     flex: 1, 
     paddingRight: 10,
     justifyContent: 'center',
-   
   },
   statusContainer: {
     alignItems: 'flex-end', 
@@ -53,7 +56,13 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 15, fontWeight: '600', color: COLORS.textMain },
   time: { fontSize: 12, color: COLORS.time, marginTop: 4 },
-  statusBadge: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 10, width: '100%',alignItems: 'center'},
+  statusBadge: { 
+    paddingHorizontal: 12, 
+    paddingVertical: 6, 
+    borderRadius: 10, 
+    width: '100%',
+    alignItems: 'center'
+  },
   statusText: { fontSize: 11, fontWeight: 'bold' },
 });
 

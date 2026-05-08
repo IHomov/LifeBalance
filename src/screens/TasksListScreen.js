@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setTasks,
@@ -14,11 +14,18 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  LayoutAnimation,
+  Platform,
+  UIManager,
 } from 'react-native';
 import { COLORS } from '../constants/colors';
 import TaskListItem from '../components/TaskListItem';
 import { SCREENS } from '../constants/screens';
 import { fetchBalanceTips } from '../services/api';
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const TasksListScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -44,31 +51,43 @@ const TasksListScreen = ({ navigation }) => {
       });
   }, [dispatch]);
 
-  const renderTask = ({ item }) => (
-  <View style={styles.taskRow}>
-    <View style={styles.taskItemContainer}>
-      <TaskListItem
-        title={item.title}
-        time="Flexible time"
-        status={item.completed ? 'Complete' : 'To do'}
-        color={item.completed ? COLORS.success : COLORS.inProgress}
-        
-        onPress={() => {
-          console.log('Клік отримано всередині ListItem! ID:', item.id);
-          dispatch(toggleTaskStatus(item.id));
-        }}
-        onLongPress={() => {
-          console.log('Довгий клік отримано!');
-          navigation.navigate(SCREENS.DETAILS, { itemId: item.id });
-        }}
-      />
-    </View>
+  // Оптимізація: Стабільні посилання на функції
+  const handleToggleStatus = useCallback((id) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    dispatch(toggleTaskStatus(id));
+  }, [dispatch]);
 
-    <TouchableOpacity onPress={() => dispatch(removeItem(item.id))} style={styles.deleteButton}>
-      <Text style={styles.deleteIcon}>🗑️</Text>
-    </TouchableOpacity>
-  </View>
-);
+  const handleDeleteTask = useCallback((id) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    dispatch(removeItem(id));
+  }, [dispatch]);
+
+  const handleLongPressTask = useCallback((id) => {
+    navigation.navigate(SCREENS.DETAILS, { itemId: id });
+  }, [navigation]);
+
+  // Оптимізація: renderTask тепер обгорнутий у useCallback
+  const renderTask = useCallback(({ item }) => (
+    <View style={styles.taskRow}>
+      <View style={styles.taskItemContainer}>
+        <TaskListItem
+          title={item.title}
+          time="Flexible time"
+          status={item.completed ? 'Complete' : 'To do'}
+          color={item.completed ? COLORS.success : COLORS.inProgress}
+          onPress={() => handleToggleStatus(item.id)}
+          onLongPress={() => handleLongPressTask(item.id)}
+        />
+      </View>
+
+      <TouchableOpacity 
+        onPress={() => handleDeleteTask(item.id)} 
+        style={styles.deleteButton}
+      >
+        <Text style={styles.deleteIcon}>🗑️</Text>
+      </TouchableOpacity>
+    </View>
+  ), [handleToggleStatus, handleLongPressTask, handleDeleteTask]);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -122,13 +141,7 @@ const TasksListScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.filters}>
-        <Text
-          style={[
-            styles.filterBtn,
-            styles.activeFilter,
-            { color: theme.accent, borderBottomColor: theme.accent },
-          ]}
-        >
+        <Text style={[styles.filterBtn, styles.activeFilter, { color: theme.accent, borderBottomColor: theme.accent }]}>
           All
         </Text>
         <Text style={styles.filterBtn}>To do</Text>
@@ -147,6 +160,8 @@ const TasksListScreen = ({ navigation }) => {
           keyExtractor={item => item.id.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListContainer}
+          initialNumToRender={10}
+          windowSize={5} // Оптимізація пам'яті
         />
       )}
     </View>
@@ -213,12 +228,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     width: '100%',
-    paddingHorizontal: 0,
-   
   },
   taskItemContainer: {
     flex: 1,
-    
   },
   deleteButton: {
     width: 45,
