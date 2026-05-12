@@ -171,6 +171,8 @@ As part of the project performance tuning, the following optimizations were impl
 ### 📦 Bundle Analysis & Dependency Management
 - **Analysis Tool**: Used `react-native-bundle-visualizer` to audit the application size.
 - **Current Bundle Size**: **3.54 MB**.
+  <img width="440" height="142" alt="bundle size" src="https://github.com/user-attachments/assets/b3dc242a-5d18-4633-9740-e7348653fdcd" />
+
 - **Key Findings**: Identified `react-native-vector-icons` and navigation modules as the primary contributors to the bundle weight.
 - **Library Replacement**: To manage dates efficiently, **Day.js** (~2KB) was integrated as a lightweight alternative to heavier libraries like `moment.js` (~70KB+ without locales).
 - **Impact**: This choice prevented an unnecessary increase of 200-300KB in bundle size (considering moment.js with locales) while providing full functionality for the dynamic calendar.
@@ -179,3 +181,15 @@ As part of the project performance tuning, the following optimizations were impl
 - **Memoization**: Implemented `React.memo` and `useCallback` hooks to prevent unnecessary re-renders of list items, ensuring smooth performance during theme switching.
 - **Layout Animations**: Integrated `LayoutAnimation` (Spring and Ease-in-out presets) to provide fluid visual transitions when deleting or updating tasks.
 - **Bug Fixes**: Resolved critical "Object is not a function" render errors by synchronizing dispatch actions and component props.
+
+<img width="390" height="822" alt="before" src="https://github.com/user-attachments/assets/54e8638c-acbc-491f-add7-f0514ab9e46e" />
+ <img width="422" height="917" alt="after" src="https://github.com/user-attachments/assets/4d9611df-b9d6-4682-9a7a-aa5336a740fa" />
+  
+
+
+
+
+
+
+ ## 💻 Video-demonstration
+ https://github.com/user-attachments/assets/898724ce-d271-4507-81be-6801d93b33d7
