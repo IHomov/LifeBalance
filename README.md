@@ -163,3 +163,19 @@ This phase of the project focused on core task management functionality, global 
 * **Redux Toolkit** (State Management)
 * **React Navigation** (Routing)
 * **Context API** (Theming)
+
+## 🚀 Optimization & Performance
+
+As part of the project performance tuning, the following optimizations were implemented:
+
+### 📦 Bundle Analysis & Dependency Management
+- **Analysis Tool**: Used `react-native-bundle-visualizer` to audit the application size.
+- **Current Bundle Size**: **3.54 MB**.
+- **Key Findings**: Identified `react-native-vector-icons` and navigation modules as the primary contributors to the bundle weight.
+- **Library Replacement**: To manage dates efficiently, **Day.js** (~2KB) was integrated as a lightweight alternative to heavier libraries like `moment.js` (~70KB+ without locales).
+- **Impact**: This choice prevented an unnecessary increase of 200-300KB in bundle size (considering moment.js with locales) while providing full functionality for the dynamic calendar.
+
+### ⚡ Rendering & UX Improvements
+- **Memoization**: Implemented `React.memo` and `useCallback` hooks to prevent unnecessary re-renders of list items, ensuring smooth performance during theme switching.
+- **Layout Animations**: Integrated `LayoutAnimation` (Spring and Ease-in-out presets) to provide fluid visual transitions when deleting or updating tasks.
+- **Bug Fixes**: Resolved critical "Object is not a function" render errors by synchronizing dispatch actions and component props.
