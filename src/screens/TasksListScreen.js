@@ -22,6 +22,7 @@ import { COLORS } from '../constants/colors';
 import TaskListItem from '../components/TaskListItem';
 import { SCREENS } from '../constants/screens';
 import { fetchBalanceTips } from '../services/api';
+import dayjs from 'dayjs';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -36,7 +37,15 @@ const TasksListScreen = ({ navigation }) => {
 
   const { isDark, theme, toggleTheme } = useContext(ThemeContext);
 
-  const dates = [19, 20, 21, 22, 23, 24, 25];
+const dates = [
+  dayjs().subtract(3, 'day').date(),
+  dayjs().subtract(2, 'day').date(),
+  dayjs().subtract(1, 'day').date(),
+  dayjs().date(), 
+  dayjs().add(1, 'day').date(),
+  dayjs().add(2, 'day').date(),
+  dayjs().add(3, 'day').date(),
+];
 
   useEffect(() => {
     fetchBalanceTips()
@@ -51,7 +60,7 @@ const TasksListScreen = ({ navigation }) => {
       });
   }, [dispatch]);
 
-  // Оптимізація: Стабільні посилання на функції
+
   const handleToggleStatus = useCallback((id) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     dispatch(toggleTaskStatus(id));
