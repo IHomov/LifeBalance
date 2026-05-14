@@ -9,4 +9,5 @@ export const COLORS = {
   darkThema: '#2D3748',
   lightThema: '#EDF2F7',
   time: '#A0AEC0',
+  gray: '#A0A0A0',
 };
