@@ -1,19 +1,34 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants/colors';
 
-const FormItem = ({ label, value, onPress, isMultiline = false }) => {
+const FormItem = ({ label, value, onChangeText, onPress, isMultiline = false, placeholder = '', isInput = false }) => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.label}>{label}</Text>
-      <TouchableOpacity
-        style={[styles.container, isMultiline && styles.multiline]}
-        onPress={onPress}
-        disabled={!onPress}
-      >
-        <Text style={styles.value}>{value}</Text>
-        {!isMultiline && <Text style={styles.arrow}>⌵</Text>}
-      </TouchableOpacity>
+      
+      {isInput ? (
+       
+        <TextInput
+          style={[styles.container, styles.inputValue, isMultiline && styles.multiline]}
+          value={value}
+          onChangeText={onChangeText} 
+          multiline={isMultiline}
+          placeholder={placeholder}
+          placeholderTextColor={COLORS.placeholder}
+          textAlignVertical={isMultiline ? 'top' : 'center'}
+        />
+      ) : (
+      
+        <TouchableOpacity
+          style={[styles.container, isMultiline && styles.multiline]}
+          onPress={onPress}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.value}>{value || placeholder}</Text>
+          {!isMultiline && <Text style={styles.arrow}>⌵</Text>}
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -27,16 +42,24 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   container: {
-    backgroundColor: '#EDF2F7',
+    backgroundColor: COLORS.inputBackground,
     borderRadius: 12,
     padding: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
   },
-  multiline: { height: 100, alignItems: 'flex-start' },
-  value: { color: '#4A5568', fontSize: 15 },
-  arrow: { fontSize: 18, color: '#A0AEC0' },
+  inputValue: {
+    color: COLORS.inputText,
+    fontSize: 15,
+  },
+  multiline: { 
+    height: 100, 
+    alignItems: 'flex-start',
+  },
+  value: { color: COLORS.inputText, fontSize: 15 },
+  arrow: { fontSize: 18, color: COLORS.placeholder },
 });
 
 export default FormItem;

@@ -10,4 +10,7 @@ export const COLORS = {
   lightThema: '#EDF2F7',
   time: '#A0AEC0',
   gray: '#A0A0A0',
+  inputBackground: '#EDF2F7',
+  inputText: '#1A202C',
+  placeholder: '#A0AEC0',
 };

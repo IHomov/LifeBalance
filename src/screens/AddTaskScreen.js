@@ -1,64 +1,168 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { COLORS } from '../constants/colors';
 import FormItem from '../components/FormItem';
 import { SCREENS } from '../constants/screens';      
+import { useApp } from '../context/AppContext';
 
 const AddTaskScreen = ({ navigation }) => {
+  const { addTask } = useApp();
+
+  const [groupName, setGroupName] = useState('Work');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  
+  // 1. Ініціалізуємо дати відразу як текстові рядки
+  const [startDate, setStartDate] = useState('16 May, 2026');
+  const [endDate, setEndDate] = useState('20 May, 2026');
+
+  const showGroupPicker = () => {
+    Alert.alert(
+      'Select Task Group',
+      'Choose a category for this task:',
+      [
+        { text: '💼 Work', onPress: () => setGroupName('Work') },
+        { text: '📚 Study', onPress: () => setGroupName('Study') },
+        { text: '👶 Kids', onPress: () => setGroupName('Kids') },
+        { text: '🏠 Home', onPress: () => setGroupName('Home') },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const showStartDatePicker = () => {
+    Alert.alert(
+      'Select Start Date',
+      'Quick select:',
+      [
+        { text: 'Today (16 May)', onPress: () => setStartDate('16 May, 2026') },
+        { text: 'Tomorrow (17 May)', onPress: () => setStartDate('17 May, 2026') },
+        { text: 'Cancel', style: 'cancel' },
+      ]
+    );
+  };
+
+  const showEndDatePicker = () => {
+    Alert.alert(
+      'Select End Date',
+      'Quick select:',
+      [
+        { text: 'In 3 Days', onPress: () => setEndDate('19 May, 2026') },
+        { text: 'In a Week', onPress: () => setEndDate('23 May, 2026') },
+        { text: 'End of Month', onPress: () => setEndDate('31 May, 2026') },
+        { text: 'Cancel', style: 'cancel' },
+      ]
+    );
+  };
+
+  const handleSaveTask = () => {
+    if (!title.trim()) {
+      Alert.alert('Помилка', 'Будь ласка, введіть назву завдання');
+      return;
+    }
+    const newTask = {
+      title: title,
+      subTitle: description || 'No description',
+      groupName: groupName, 
+      progress: 10, 
+      isCompleted: false,
+    };
+
+    addTask(newTask);
+    Alert.alert('Success', 'Task added successfully!', [
+      { text: 'OK', 
+        onPress: () => {
+          if (navigation.canGoBack()){
+            navigation.goBack();
+          } else {
+            navigation.navigate(SCREENS.HOME);
+          }
+        },
+      },
+    ]);
+  };
+  
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity 
-  style={styles.backBtn} 
-  onPress={() => {
-    if (navigation.canGoBack()) {
-      navigation.goBack(); 
-    } else {
-      navigation.navigate(SCREENS.HOME); 
-    }
-  }}
->
-  <Text style={styles.backText}>‹ Back</Text>
-</TouchableOpacity>
+          style={styles.backBtn} 
+          onPress={() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack(); 
+            } else {
+              navigation.navigate(SCREENS.HOME); 
+            }
+          }}
+        >
+          <Text style={styles.backText}>‹ Back</Text>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Task Details</Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.form}>
-        <FormItem label="Task Group" value="Work" />
-        <FormItem label="Task Name" value="Prepare weekly report" />
+      <ScrollView contentContainerStyle={styles.form} showsVerticalScrollIndicator={false}>
+  {/* Група (Кнопка) */}
+  <FormItem 
+    label="Task Group" 
+    value={groupName} 
+    onPress={showGroupPicker} 
+  />
+  
 
-        <FormItem
-          label="Description"
-          value="Analyze last week's sales, create visual charts, and send the final PDF to the manager."
-          isMultiline={true}
-        />
+  <FormItem 
+    label="Task Name" 
+    value={title} 
+    onChangeText={setTitle}
+    placeholder="Enter task name..."
+    isInput={true}
+  />
 
-        <View style={styles.dateRow}>
-          <View style={styles.dateInputContainer}>
-            <FormItem label="Start Date" value="01 May, 2026" />
-          </View>
-          <View style={styles.dateInputWrapper}>
-            <FormItem label="End Date" value="05 May, 2026" />
-          </View>
-        </View>
+ 
+  <FormItem
+    label="Description"
+    value={description}
+    onChangeText={setDescription}
+    isMultiline={true}
+    placeholder="Enter task description..."
+    isInput={true}
+  />
 
-        <TouchableOpacity style={styles.saveBtn}>
-          <Text style={styles.saveBtnText}>Save Task</Text>
-        </TouchableOpacity>
-      </ScrollView>
+
+  <View style={styles.dateRow}>
+    <View style={styles.dateInputContainer}>
+      <FormItem 
+        label="Start Date" 
+        value={startDate} 
+        onPress={showStartDatePicker} 
+      />
+    </View>
+    <View style={styles.dateInputWrapper}>
+      <FormItem 
+        label="End Date" 
+        value={endDate} 
+        onPress={showEndDatePicker} 
+      />
+    </View>
+  </View>
+
+  <TouchableOpacity style={styles.saveBtn} onPress={handleSaveTask}>
+    <Text style={styles.saveBtnText}>Save Task</Text>
+  </TouchableOpacity>
+</ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8FAFC' },
+  container: { flex: 1, backgroundColor: COLORS.background },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -66,14 +170,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 20,
     justifyContent: 'center', 
-  position: 'relative',
+    position: 'relative',
   },
   backBtn: {
-position: 'absolute',    
-  left: 10,                
-  top: 55,                
-  zIndex: 1,               
-  padding: 10,
+    position: 'absolute',    
+    left: 10,                
+    top: 55,                
+    zIndex: 1,               
+    padding: 10,
   },
   backText: {
     fontSize: 15,
