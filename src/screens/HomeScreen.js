@@ -4,122 +4,216 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { COLORS } from '../constants/colors';
 import TaskCard from '../components/TaskCard';
 import { SCREENS } from '../constants/screens';
+import GroupCard from '../components/GroupCard';
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header */}
-      <View style={styles.header} />
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.greeting}>Hello, Iris</Text>
+    <View style={styles.mainContainer}>
+      <StatusBar barStyle="light-content" />
+    
+      {/* Шапка з градієнтом */}
+      <LinearGradient 
+        colors={[COLORS.primary, '#417DFF']} 
+        style={styles.headerBackground}
+      >
+        <View style={styles.headerContent}>
+          <View>
+            <Text style={styles.greetingTitle}>Hello, Iris</Text>
+            <Text style={styles.greetingSubTitle}>Have a nice day!</Text>
+          </View>
+          <View style={styles.avatarPlaceholder} />
         </View>
-        <View style={styles.avatarPlaceholder} />
-      </View>
 
-      {/* Main Promo Card */}
-      <View style={styles.promoCard}>
-        <TouchableOpacity
-          style={styles.viewBtn}
-          onPress={() =>
-            navigation.navigate(SCREENS.ADD_TASK, { groupName: 'General' })
-          }
-        >
-          <Text style={styles.viewBtnText}>View Task</Text>
-        </TouchableOpacity>
-        <Text style={styles.promoPercent}>85%</Text>
-      </View>
+        {/* Промо-картка прогресу */}
+        <View style={styles.promoCard}>
+          <View style={styles.promoTextContainer}>
+            <Text style={styles.promoTitle}>Today's Progress</Text>
+            <Text style={styles.promoSubTitle}>You have completed 85% of your tasks</Text>
+            <TouchableOpacity
+              style={styles.viewBtn}
+              onPress={() => navigation.navigate(SCREENS.TASKS)}
+            >
+              <Text style={styles.viewBtnText}>View Task</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.percentContainer}>
+             <Text style={styles.promoPercent}>85%</Text>
+          </View>
+        </View>
+      </LinearGradient>
 
-      <Text style={styles.sectionTitle}>In progress</Text>
-      <TaskCard
-        title="Work"
-        subTitle="Finish task on week"
-        progress={45}
-        color="#1E67FF"
-        onPress={() => navigation.navigate('AddTask', { groupName: 'Work' })}
-      />
-      <TaskCard
-        title="Study"
-        subTitle="Exam last week home"
-        progress={80}
-        color="#FF6B6B"
-        onPress={() => navigation.navigate('AddTask', { groupName: 'Study' })}
-      />
+      {/* Основний скрол-контент */}
+      <ScrollView 
+        style={styles.contentContainer} 
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Секція In Progress */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>In progress</Text>
+          <TouchableOpacity>
+             <Text style={styles.seeAll}>See all</Text>
+          </TouchableOpacity>
+        </View>
 
-      <Text style={styles.sectionTitle}>Task Groups</Text>
-      <TaskCard
-        title="Work"
-        subTitle="22 Tasks"
-        progress={70}
-        color="#4ECDC4"
-        onPress={() => navigation.navigate('AddTask', { groupName: 'Work' })}
-      />
-      <TaskCard
-        title="Study"
-        subTitle="12 Tasks"
-        progress={30}
-        color="#FFD93D"
-        onPress={() => navigation.navigate('AddTask', { groupName: 'Study' })}
-      />
-      <TaskCard
-        title="Kids"
-        subTitle="10 Tasks"
-        progress={20}
-        color="#6C5CE7"
-        onPress={() => navigation.navigate('AddTask', { groupName: 'Kids' })}
-      />
+        <TaskCard
+          title="Work"
+          subTitle="Finish task on week"
+          progress={45}
+          color="#1E67FF"
+          onPress={() => navigation.navigate('AddTask', { groupName: 'Work' })}
+        />
+        <TaskCard
+          title="Study"
+          subTitle="Exam last week home"
+          progress={80}
+          color="#FF6B6B"
+          onPress={() => navigation.navigate('AddTask', { groupName: 'Study' })}
+        />
 
-      <View style={styles.bottomSpacer} />
-    </ScrollView>
+        {/* Секція Task Groups */}
+        <Text style={styles.sectionTitle}>Task Groups</Text>
+        
+        <View style={styles.groupsGrid}>
+          <GroupCard
+            title="Work"
+            taskCount={22}
+            icon="briefcase"
+            color="#1E67FF"
+            progress={70}
+            onPress={() => navigation.navigate('Tasks', { filter: 'Work' })}
+          />
+          <GroupCard
+            title="Study"
+            taskCount={12}
+            icon="book-open"
+            color="#FF9F43"
+            progress={30}
+            onPress={() => navigation.navigate('Tasks', { filter: 'Study' })}
+          />
+          <GroupCard
+            title="Kids"
+            taskCount={10}
+            icon="heart"
+            color="#6C5CE7"
+            progress={20}
+            onPress={() => navigation.navigate('Tasks', { filter: 'Kids' })}
+          />
+          <GroupCard
+            title="Home"
+            taskCount={8}
+            icon="home"
+            color="#4ECDC4"
+            progress={50}
+            onPress={() => navigation.navigate('Tasks', { filter: 'Home' })}
+          />
+        </View>
+        
+        {/* Нижній відступ для комфортного скролу над таб-баром */}
+        <View style={styles.bottomSpacer} /> 
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 50,
-    paddingHorizontal: 20,
+  mainContainer: { 
+    flex: 1, 
+    backgroundColor: '#FFFFFF' 
   },
-
-  container: { flex: 1, backgroundColor: '#F8FAFC', paddingHorizontal: 20 },
-
-  greeting: { fontSize: 24, fontWeight: 'bold', color: COLORS.textMain },
+  headerBackground: {
+    height: 300,
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  greetingTitle: { 
+    fontSize: 26, 
+    fontWeight: 'bold', 
+    color: '#FFFFFF' 
+  },
+  greetingSubTitle: { 
+    fontSize: 16, 
+    color: 'rgba(255, 255, 255, 0.8)' 
+  },
   avatarPlaceholder: {
-    width: 45,
-    height: 45,
-    borderRadius: 22,
-    backgroundColor: '#E2E8F0',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
   },
   promoCard: {
-    backgroundColor: '#EBF2FF',
-    borderRadius: 25,
-    padding: 30,
-    marginTop: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)', 
+    borderRadius: 20,
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  promoTextContainer: { flex: 1 },
+  promoTitle: { color: '#FFFFFF', fontSize: 18, fontWeight: 'bold' },
+  promoSubTitle: { color: 'rgba(255, 255, 255, 0.8)', fontSize: 13, marginVertical: 8 },
+  viewBtn: {
+    backgroundColor: '#FFFFFF',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 10,
+  },
+  viewBtnText: { color: COLORS.primary, fontWeight: 'bold', fontSize: 12 },
+  percentContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  promoPercent: { fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' },
+  contentContainer: {
+    flex: 1,
+    marginTop: 10,
+    paddingHorizontal: 20,
+  },
+  sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  viewBtn: {
-    backgroundColor: COLORS.white,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 12,
-  },
-  viewBtnText: { color: COLORS.primary, fontWeight: 'bold' },
-  promoPercent: { fontSize: 22, fontWeight: 'bold', color: COLORS.primary },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: COLORS.textMain,
+    color: '#1A1C24',
     marginVertical: 20,
+  },
+  seeAll: {
+    color: '#A0A0A0',
+    fontSize: 14,
+  },
+  groupsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  bottomSpacer: {
+    height: 100,
   },
 });
 
