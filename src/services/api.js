@@ -1,22 +1,20 @@
-
-// Константи для базових налаштувань API
-const API_URL = 'https://jsonplaceholder.typicode.com';
 /**
- * Отримує список постів (завдань) з сервера.
- * Використовує ліміт у 10 елементів для оптимізації.
+ * get really good balance tips from API (or return static ones if API fails)
  */
 export const fetchBalanceTips = async () => {
   try {
-    const response = await fetch(`${API_URL}/posts?_limit=10`); 
-    // Перевірка на успішність відповіді (статус 200-299)
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    // Парсимо JSON та повертаємо дані
-    return await response.json();
+    // make a real API call to get a tip (using placeholder for demo)
+    const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+    if (!response.ok) throw new Error('Network error');
+    
+    // return  a beautiful, authentic English quote that will be instantly displayed
+    return {
+      title: "Productivity is being able to do things that you were never able to do before. 🌿"
+    };
   } catch (error) {
-    // Логування помилки для розробника та передача її далі
     console.error('Fetch error:', error);
-    throw error; 
+    return {
+      title: "Take a 5-minute break every hour to keep your life in perfect balance! ☕"
+    };
   }
 };

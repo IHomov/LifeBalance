@@ -11,7 +11,7 @@ import { COLORS } from '../constants/colors';
 import { SCREENS } from '../constants/screens';
 import { useApp } from '../context/AppContext';
 
-// Компонент для маленької картки в секції "In progress"
+
 const InProgressCard = ({ title, subTitle, progress, color }) => (
   <View style={[styles.inProgressCard, { borderLeftColor: color }]}>
     <View style={styles.cardInfo}>
@@ -22,7 +22,7 @@ const InProgressCard = ({ title, subTitle, progress, color }) => (
   </View>
 );
 
-// Компонент для картки групи завдань (Task Groups)
+// Task Groups Card Component (Task Groups)
 const GroupCard = ({ title, taskCount, progress, icon, color, bgColor, onPress }) => {
   return (
     <TouchableOpacity 
@@ -48,7 +48,7 @@ const GroupCard = ({ title, taskCount, progress, icon, color, bgColor, onPress }
 const HomeScreen = ({ navigation }) => {
   const { tasks } = useApp();
 
-  // 🔹 Функція розрахунку статистики для конкретної групи (кількість та середній прогрес)
+
   const getGroupStats = (groupName) => {
     const groupTasks = tasks.filter(task => task.groupName === groupName);
     const taskCount = groupTasks.length;
@@ -63,13 +63,13 @@ const HomeScreen = ({ navigation }) => {
     return { taskCount, progress: averageProgress };
   };
 
-  // Розраховуємо дані для кожної групи окремо
+
   const workStats = getGroupStats('Work');
   const studyStats = getGroupStats('Study');
   const kidsStats = getGroupStats('Kids');
   const homeStats = getGroupStats('Home');
 
-  // 🔹 Загальний прогрес дня (середнє по всіх існуючих задачах)
+ 
   const totalProgressDay = useMemo(() => {
     if (tasks.length === 0) return 0;
     const total = tasks.reduce((sum, task) => sum + task.progress, 0);
@@ -121,16 +121,16 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Показуємо перші дві незавершені задачі з контексту */}
+      
         {tasks.filter(t => t.progress < 100).slice(0, 2).map((task) => {
-          const colorsMap = { Work: '#5481FF', Study: '#FF9F43', Kids: '#7F56D9', Home: '#20C997' };
+          const colorsMap = { Work: COLORS.primary, Study: COLORS.secondary, Kids: COLORS.tertiary, Home: COLORS.quaternary };
           return (
             <InProgressCard
               key={task.id}
               title={task.title}
               subTitle={task.subTitle}
               progress={task.progress}
-              color={colorsMap[task.groupName] || '#5481FF'}
+              color={colorsMap[task.groupName] || COLORS.primary}
             />
           );
         })}
@@ -140,7 +140,7 @@ const HomeScreen = ({ navigation }) => {
         )}
 
         {/* Task Groups Section */}
-        <Text style={[styles.sectionTitle, { marginTop: 25, marginBottom: 15 }]}>Task Groups</Text>
+        <Text style={[styles.sectionTitle, styles.sectionTitleSpacing]}>Task Groups</Text>
         
         <View style={styles.gridContainer}>
   <GroupCard
@@ -148,8 +148,8 @@ const HomeScreen = ({ navigation }) => {
     taskCount={workStats.taskCount}
     progress={workStats.progress}
     icon="💼"
-    color="#5481FF"
-    bgColor="#EEF4FF"
+    color={COLORS.primary}
+    bgColor={COLORS.background}
     onPress={() => navigation.navigate('Tasks', { groupName: 'Work' })} 
   />
   <GroupCard
@@ -157,8 +157,8 @@ const HomeScreen = ({ navigation }) => {
     taskCount={studyStats.taskCount}
     progress={studyStats.progress}
     icon="📚"
-    color="#FF9F43"
-    bgColor="#FFF6EE"
+    color= {COLORS.secondary}
+    bgColor={COLORS.secondaryBg}
     onPress={() => navigation.navigate('Tasks', { groupName: 'Study' })}
   />
   <GroupCard
@@ -166,8 +166,8 @@ const HomeScreen = ({ navigation }) => {
     taskCount={kidsStats.taskCount}
     progress={kidsStats.progress}
     icon="👶"
-    color="#7F56D9"
-    bgColor="#F9F5FF"
+    color={COLORS.tertiary}
+    bgColor={COLORS.tertiaryBg}
     onPress={() => navigation.navigate('Tasks', { groupName: 'Kids' })}
   />
   <GroupCard
@@ -175,8 +175,8 @@ const HomeScreen = ({ navigation }) => {
     taskCount={homeStats.taskCount}
     progress={homeStats.progress}
     icon="🏠"
-    color="#20C997"
-    bgColor="#E6F9F4"
+    color={COLORS.quaternary}
+    bgColor={COLORS.quaternaryBg}
     onPress={() => navigation.navigate('Tasks', { groupName: 'Home' })}
   />
 </View>
@@ -194,7 +194,7 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFFFFF' },
+  container: { flex: 1, backgroundColor: COLORS.background },
   blueHeader: {
     backgroundColor: COLORS.primary,
     borderBottomLeftRadius: 30,
@@ -209,8 +209,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 25,
   },
-  greetingText: { color: '#FFF', fontSize: 26, fontWeight: 'bold' },
-  subGreetingText: { color: '#E0E7FF', fontSize: 14, marginTop: 4 },
+  greetingText: { color:COLORS.white, fontSize: 26, fontWeight: 'bold' },
+  subGreetingText: { color: COLORS.white, fontSize: 14, marginTop: 4 },
   avatarPlaceholder: { width: 45, height: 45, borderRadius: 22.5, backgroundColor: 'rgba(255,255,255,0.4)' },
   progressBlock: {
     backgroundColor: 'rgba(255, 255, 255, 0.15)',
@@ -220,9 +220,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   progressBlockInfo: { flex: 1, marginRight: 10 },
-  progressBlockTitle: { color: '#FFF', fontSize: 18, fontWeight: 'bold' },
-  progressBlockSub: { color: '#E0E7FF', fontSize: 12, marginVertical: 8, lineHeight: 16 },
-  viewTaskBtn: { backgroundColor: '#FFF', alignSelf: 'flex-start', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 10 },
+  progressBlockTitle: { color: COLORS.white, fontSize: 18, fontWeight: 'bold' },
+  progressBlockSub: { color: COLORS.white, fontSize: 12, marginVertical: 8, lineHeight: 16 },
+  viewTaskBtn: { backgroundColor: COLORS.white, alignSelf: 'flex-start', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 10 },
   viewTaskBtnText: { color: COLORS.primary, fontSize: 13, fontWeight: 'bold' },
   circleProgressContainer: { justifyContent: 'center', alignItems: 'center' },
   circleProgress: {
@@ -235,13 +235,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.1)',
   },
-  circleProgressText: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
+  circleProgressText: { color: COLORS.white, fontSize: 16, fontWeight: 'bold' },
   contentContainer: { paddingHorizontal: 20, paddingBottom: 100 },
   sectionHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 25, marginBottom: 15 },
   sectionTitle: { fontSize: 20, fontWeight: 'bold', color: COLORS.textMain },
-  seeAllText: { color: '#A0AEC0', fontSize: 14 },
+  sectionTitleSpacing: { marginTop: 25, marginBottom: 15 },
+  seeAllText: { color: COLORS.placeholder, fontSize: 14 },
   inProgressCard: {
-    backgroundColor: '#FFF',
+    backgroundColor: COLORS.white,
     borderRadius: 16,
     padding: 18,
     flexDirection: 'row',
@@ -249,24 +250,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
     borderLeftWidth: 5,
-    shadowColor: '#000',
+    shadowColor: COLORS.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 2,
   },
   cardInfo: { flex: 1 },
-  cardTitle: { fontSize: 16, fontWeight: 'bold', color: '#1A202C' },
-  cardSubTitle: { fontSize: 13, color: '#718096', marginTop: 4 },
+  cardTitle: { fontSize: 16, fontWeight: 'bold', color: COLORS.inputText },
+  cardSubTitle: { fontSize: 13, color: COLORS.placeholder, marginTop: 4 },
   cardProgressText: { fontSize: 15, fontWeight: 'bold' },
-  noTasksText: { textAlign: 'center', color: '#718096', marginVertical: 15, fontSize: 14 },
+  noTasksText: { textAlign: 'center', color: COLORS.placeholder, marginVertical: 15, fontSize: 14 },
   gridContainer: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
   groupCard: {
     width: '48%',
     borderRadius: 20,
     padding: 16,
     marginBottom: 16,
-    shadowColor: '#000',
+    shadowColor: COLORS.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.02,
     shadowRadius: 5,
@@ -276,8 +277,8 @@ const styles = StyleSheet.create({
   iconContainer: { width: 36, height: 36, borderRadius: 10, justifyContent: 'center', alignItems: 'center' },
   groupIcon: { fontSize: 18 },
   groupProgressText: { fontSize: 13, fontWeight: 'bold' },
-  groupTitle: { fontSize: 16, fontWeight: 'bold', color: '#1A202C' },
-  groupSubTitle: { fontSize: 12, color: '#718096', marginTop: 4, marginBottom: 12 },
+  groupTitle: { fontSize: 16, fontWeight: 'bold', color: COLORS.inputText },
+  groupSubTitle: { fontSize: 12, color: COLORS.placeholder, marginTop: 4, marginBottom: 12 },
   progressBarBg: { height: 5, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 2.5, width: '100%' },
   progressBarFill: { height: '100%', borderRadius: 2.5 },
   floatingAddBtn: {
@@ -297,7 +298,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     zIndex: 999,
   },
-  floatingAddBtnText: { color: '#FFF', fontSize: 32, fontWeight: 'light', lineHeight: 34 },
+  floatingAddBtnText: { color: COLORS.white, fontSize: 32, fontWeight: 'light', lineHeight: 34 },
 });
 
 export default HomeScreen;

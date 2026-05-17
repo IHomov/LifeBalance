@@ -1,9 +1,11 @@
+import RegistrationScreen from "../screens/RegistrationScreen";
+
 export const COLORS = {
-  primary: '#1E67FF',    
-  background: '#F0F4F8', 
-  textMain: '#2D3142',   
+  primary: '#1E67FF',
+  background: '#F0F4F8',
+  textMain: '#2D3142',
   white: '#FFFFFF',
-  glass: 'rgba(255, 255, 255, 0.7)', 
+  glass: 'rgba(255, 255, 255, 0.7)',
   success: '#48BB78',
   inProgress: '#4299E1',
   darkThema: '#2D3748',
@@ -13,4 +15,17 @@ export const COLORS = {
   inputBackground: '#EDF2F7',
   inputText: '#1A202C',
   placeholder: '#A0AEC0',
+  secondary: '#FF9F43',
+  secondaryBg: '#FFF6EE',
+  tertiary: '#7F56D9',
+  tertiaryBg: '#F9F5FF',
+  registrationcolor: '#E0F2FE',
+  quaternary: '#20C997',
+  quaternaryBg: '#E6F9F4',
+  accent: '#63B3ED',
+  primaryDark: '#5481FF',
+  moodWork: '#FFD93D',
+  moodStudy: '#6BCB77',
+  moodKids: '#4D96FF',
+  description: '#7C7C7C',
 };

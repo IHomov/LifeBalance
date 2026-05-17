@@ -12,9 +12,9 @@ const MoodTrackerScreen = () => {
 
       {/* Графік */}
       <View style={styles.chartContainer}>
-        <MoodBar label="Work" percentage={85} color="#FFD93D" />
-        <MoodBar label="Study" percentage={70} color="#6BCB77" />
-        <MoodBar label="Kids" percentage={20} color="#4D96FF" />
+        <MoodBar label="Work" percentage={85} color= {COLORS.moodWork} />
+        <MoodBar label="Study" percentage={70} color= {COLORS.moodStudy} />
+        <MoodBar label="Kids" percentage={20} color= {COLORS.moodKids} />
       </View>
 
       <View style={styles.questionContainer}>
@@ -36,7 +36,7 @@ const MoodTrackerScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8FAFC', padding: 25, paddingTop: 60 },
+  container: { flex: 1, backgroundColor: COLORS.background, padding: 25, paddingTop: 60 },
   headerTitle: { fontSize: 24, fontWeight: 'bold', color: COLORS.textMain, textAlign: 'center', marginBottom: 40 },
   chartContainer: { 
     flexDirection: 'row', 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     padding: 15, 
     borderRadius: 20, 
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: COLORS.shadow,
     shadowOpacity: 0.1,
   },
   emojiText: { fontSize: 30 },

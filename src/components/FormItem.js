@@ -21,7 +21,7 @@ const FormItem = ({ label, value, onChangeText, onPress, isMultiline = false, pl
       ) : (
       
         <TouchableOpacity
-          style={[styles.container, isMultiline && styles.multiline]}
+          style={[styles.container,styles.buttonContainer, isMultiline && styles.multiline]}
           onPress={onPress}
           activeOpacity={0.7}
         >
@@ -41,22 +41,29 @@ const styles = StyleSheet.create({
     color: COLORS.textMain,
     marginBottom: 8,
   },
+  
   container: {
     backgroundColor: COLORS.inputBackground,
     borderRadius: 12,
     padding: 15,
+    width: '100%',
+  },
+  
+  buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
   },
+
   inputValue: {
     color: COLORS.inputText,
     fontSize: 15,
+    height: 52, 
+    paddingHorizontal: 15,
   },
   multiline: { 
     height: 100, 
-    alignItems: 'flex-start',
+    textAlignVertical: 'top', 
   },
   value: { color: COLORS.inputText, fontSize: 15 },
   arrow: { fontSize: 18, color: COLORS.placeholder },

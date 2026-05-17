@@ -3,34 +3,42 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 const GroupCard = ({ title, taskCount, icon, color, progress, onPress }) => {
-    return (
-            <TouchableOpacity style={[styles.card, { backgroundColor: color + '15' }]} 
-            onPress={onPress}
-            activeOpacity={0.8}
-            >
-                <View style={styles.header}>
-                    <View style={[styles.iconContainer, { backgroundColor: color}]}>
-                        <Icon name={icon} size={20} color="#fff" />
-                    </View>
-                    <Text style={[styles.progressText, { color: color }]}>{progress}%  </Text>
-                </View>
-                <View style={styles.footer}>
-                    <View>
-                        <Text style={styles.title}>{title}</Text>
-                        <Text style={styles.taskCount}>{taskCount} Tasks</Text>
-                    </View>
-                </View>
+  return (
+    <TouchableOpacity
+      style={[styles.card, { backgroundColor: color + '15' }]}
+      onPress={onPress}
+      activeOpacity={0.8}
+    >
+      <View style={styles.header}>
+        <View style={[styles.iconContainer, { backgroundColor: color }]}>
+          <Icon name={icon} size={20} color="#fff" />
+        </View>
+        <Text style={[styles.progressText, { color: color }]}>
+          {progress}%{' '}
+        </Text>
+      </View>
+      <View style={styles.footer}>
+        <View>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.taskCount}>{taskCount} Tasks</Text>
+        </View>
+      </View>
 
-                <View style={styles.progressBarBg}>
-                    <View style={[styles.progressBarFill, { width: `${progress}%`, backgroundColor: color }]} />
-                </View>
-            </TouchableOpacity>
-        );
-    };
+      <View style={styles.progressBarBg}>
+        <View
+          style={[
+            styles.progressBarFill,
+            { width: `${progress}%`, backgroundColor: color },
+          ]}
+        />
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
-    card: {
-    width: '48%', // Щоб по дві в ряд
+  card: {
+    width: '48%',
     borderRadius: 20,
     padding: 15,
     marginBottom: 15,
