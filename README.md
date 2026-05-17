@@ -7,7 +7,7 @@ LifeBalance is a modern mobile application built with **React Native** designed 
 ## 💻 Video Demonstration
 To see the application interface, smooth custom animations, active REST API integration, and full navigation flow in real-time, please watch our demo:
 
-🎥 **[Watch the App Video Demonstration](./video.mp4)**
+🎥 **[Watch the App Video Demonstration](./videoFinal.mp4)**
 
 *(Note: The `video.mp4` file is located in the root directory of this repository).*
 
