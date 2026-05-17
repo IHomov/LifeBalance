@@ -1,181 +1,111 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-
-# Getting Started
-
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
-
-## Step 1: Start Metro
-
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
-
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
-
-
 # 🌿 LifeBalance - Task & Mood Tracker
 
-LifeBalance is a mobile application built with React Native designed to help users organize their daily tasks and monitor their emotional well-being. This project focuses on implementing a robust navigation structure and data flow.
+LifeBalance is a modern mobile application built with **React Native** designed to help users organize their daily routine, prevent burnout, and maintain a healthy balance between different life areas (Work, Study, Kids, Home).
 
-## 🚀 Features
-- **Onboarding Flow**: Clean and minimal Title and Registration screens.
-- **Dynamic Task Management**: Users can navigate to specific task groups (Work, Study, Kids).
-- **Navigation Architecture**: A seamless blend of Stack and Bottom Tab navigation.
-- **Custom UI Components**: Hand-crafted headers, specialized task cards, and interactive buttons.
+---
 
-## 🛠 Navigation Structure
-The app utilizes **React Navigation v6/v7**:
-1. **Stack Navigator**: Handles the authentication and onboarding flow (Title -> Registration -> Main).
-2. **Bottom Tab Navigator**: Provides quick access to the core features:
-   - **Home**: Dashboard with task progress.
-   - **Tasks**: List of current activities.
-   - **Add Task**: Dynamic form with parameter handling.
-   - **Mood**: Emotional state tracker.
+## 💻 Video Demonstration
+To see the application interface, smooth custom animations, active REST API integration, and full navigation flow in real-time, please watch our demo:
 
-### Key Technical Implementation:
-- **Route Params**: Passing `groupName` from the Home dashboard to the Add Task form to pre-fill data.
-- **Header Customization**: Fully custom headers with `navigation.goBack()` logic and absolute positioning for title centering.
-- **Clean Code**: Screen names managed via a central `SCREENS` constant file.
-- **Modern Interactions**: Transitioned from `TouchableOpacity` to `Pressable` for better haptic feedback and performance.
+🎥 **[Watch the App Video Demonstration](./video.mp4)**
+
+*(Note: The `video.mp4` file is located in the root directory of this repository).*
+
+---
+
+## 🚀 Key Features
+
+* **Progress Dashboard:** The main screen displays an animated circular progress indicator showing today's task completion rate.
+* **Task Categorization:** Tasks are grouped into dedicated categories (Work, Study, Kids, Home), each featuring unique UI theme colors.
+* **Interactive Mood Tracker:** A specialized screen with custom vertical `MoodBar` charts where users can select their current emotional state (emoji) and receive instant, animated alert feedback.
+* **Smart Status Tabs (Filtering):** Fast task sorting on the list screen using interactive navigation tabs:
+    * `All` — Displays the entire task list.
+    * `To do` — New tasks starting with a clean `0%` progress.
+    * `In Progress` — Active tasks currently in motion (from `1%` to `99%`).
+    * `Complete` — Tasks marked as done or reaching `100%`.
+* **💡 REST API Balance Tip:** Integration with an external asynchronous API to fetch and display daily quotes/tips regarding work-life balance.
+* **Global Dark / Light Mode:** Seamless theme switching across all app screens powered by React Context.
+
+---
+
+## 🛠️ Navigation Architecture (React Navigation)
+
+The app combines **Native Stack** and **Bottom Tab** navigators for a robust mobile UX:
+1. **Stack Navigator:** Manages the onboarding process (Title Screen -> Registration Screen) and handles transitions between the List view and individual Task Details.
+2. **Bottom Tab Navigator:** Provides quick, thumb-friendly access to core application features:
+    * `Home` — Dashboard with total statistics and metrics.
+    * `Tasks` — Dynamically filtered list of activities.
+    * `Add Task` — Form for creating new items with param handling.
+    * `Mood` — Emotional tracking suite with analytics.
+
+### Technical Implementation:
+* **Route Params:** When clicking a dashboard category (e.g., *Work*), the app passes the parameter to filter the list. Clicking `See all` or `View Task` passes `null`, resetting the category filter to display all global tasks.
+* **Route Safety:** All navigation paths are strictly managed using a centralized constants file (`SCREENS`).
+
+---
+
+## 📐 State Management & Architecture
+
+Instead of heavy external libraries like Redux, the app uses a lightweight and efficient **React Context API** architecture:
+* `ThemeContext`: Globally stores the current theme state (`isDark`), color palette objects, and the `toggleTheme` function.
+* `AppContext`: Acts as a single source of truth for the `tasks` array and CRUD actions (`addTask`, `deleteTask`, `toggleTaskComplete`). This ensures instant data synchronization between creation and list views without forced re-renders.
+
+### REST API Optimization:
+Network calls in `fetchBalanceTips()` (`services/api.js`) are safely wrapped inside a `useEffect` hook with an empty dependency array `[]`. This ensures the API is called **exactly once when the screen mounts**, protecting the UI from lagging and avoiding memory leaks.
+
+---
+
+## ⚡ Performance & UI Tuning
+
+* **Rendering Optimization:** Implemented event handler memoization to ensure optimal list performance in `FlatList` component loops.
+* **Native Animations:** Task deletion, creation, and status toggles are wrapped in `LayoutAnimation` (using Spring and Ease-In-Out presets) for fluid visual responses.
+* **Bulletproof UI Layout:** Custom components use adaptive Flexbox layouts with `flex: 1` and `numberOfLines={2}` to prevent long task titles from breaking UI element bounds.
+* **Bundle Weight:** Integrated ultra-lightweight **Day.js (~2KB)** instead of the heavy legacy library `moment.js (~70KB+)`, keeping the final application bundle at **3.54 MB**.
+
+---
 
 ## 💻 Tech Stack
-- **Framework**: React Native
-- **Navigation**: @react-navigation/native, stack, bottom-tabs
-- **Icons/Styling**: Custom StyleSheet architecture
+* **Core:** React Native (CLI), React Hooks (`useState`, `useEffect`, `useContext`, `useMemo`)
+* **Navigation:** `@react-navigation/native`, `native-stack`, `bottom-tabs`
+* **State Management:** React Context API
+* **Date Utility:** Day.js
+* **Styling:** StyleSheet Architecture with dynamic dark/light theme objects.
 
+---
 
-## 💻 Video-demonstration
-video.mp4
+## 🛠️ Getting Started
 
-## 🚀 Homework: Redux, Context API, and Navigation
+To run this project locally on your machine, follow these steps using your computer's terminal:
 
-This phase of the project focused on core task management functionality, global state handling, and a flexible user interface.
+### Step 1: Start Metro
+First, run **Metro Bundler** (the JavaScript server) from the root directory of your project:
+```sh
+npm start
+# or using yarn
+yarn start
 
-### ✅ Features Implemented:
+### Step 2: Build and run the application
+Open a new terminal window in your editor, keep Step 1 running, and enter one of the following commands depending on your emulator platform:
 
-1.  **Redux State Management**:
-    * Created `tasksSlice` to manage the global state of the task list.
-    * **Toggle Status**: Implemented logic to switch task status between "To do" and "Complete" using `dispatch`.
-    * **Remove Item**: Users can delete tasks from the list, updating the global state instantly.
-    * Integrated external API data fetching with Redux store synchronization.
+Android
+npm run android
+# or using yarn
+yarn android
 
-2.  **Context API (Global Theming)**:
-    * Developed a `ThemeProvider` to toggle between **Light** and **Dark** modes.
-    * Applied theme colors (background, text, accent) globally across all screens using `useContext`.
+iOS
+# Install native CocoaPods dependencies (required on first setup)
+cd ios && pod install && cd ..
 
-3.  **Navigation & Interaction**:
-    * Set up `Stack Navigator` for seamless transitions between the List and Details screens.
-    * **onPress**: Handles status toggling.
-    * **onLongPress**: Triggers navigation to the `TaskDetailsScreen`, passing the `itemId` as a parameter.
+# Build and launch the iOS Simulator
+npm run ios
+# or using yarn
+yarn ios
 
-4.  **UI/UX & Layout Fixes**:
-    * Built a custom, reusable `TaskListItem` component with a responsive Flexbox layout.
-    * Fixed a critical layout bug where long task titles would push the status badge off-screen.
-    * Used `flex: 1` and `numberOfLines={2}` to ensure a "bulletproof" UI that adapts to any content length.
-    * Added `ActivityIndicator` for better user experience during data loading.
+### Project Structure Guide
+src/context/ — Global state managers (AppContext.js, ThemeContext.js).
 
-### 🛠 Tech Stack used:
-* **React Native** (Core)
-* **Redux Toolkit** (State Management)
-* **React Navigation** (Routing)
-* **Context API** (Theming)
+src/screens/ — Full-screen application views.
 
-## 🚀 Optimization & Performance
+src/components/ — Reusable, isolated atom UI blocks (FormItem, TaskListItem, MoodBar).
 
-As part of the project performance tuning, the following optimizations were implemented:
-
-### 📦 Bundle Analysis & Dependency Management
-- **Analysis Tool**: Used `react-native-bundle-visualizer` to audit the application size.
-- **Current Bundle Size**: **3.54 MB**.
-- **Key Findings**: Identified `react-native-vector-icons` and navigation modules as the primary contributors to the bundle weight.
-- **Library Replacement**: To manage dates efficiently, **Day.js** (~2KB) was integrated as a lightweight alternative to heavier libraries like `moment.js` (~70KB+ without locales).
-- **Impact**: This choice prevented an unnecessary increase of 200-300KB in bundle size (considering moment.js with locales) while providing full functionality for the dynamic calendar.
-
-### ⚡ Rendering & UX Improvements
-- **Memoization**: Implemented `React.memo` and `useCallback` hooks to prevent unnecessary re-renders of list items, ensuring smooth performance during theme switching.
-- **Layout Animations**: Integrated `LayoutAnimation` (Spring and Ease-in-out presets) to provide fluid visual transitions when deleting or updating tasks.
-- **Bug Fixes**: Resolved critical "Object is not a function" render errors by synchronizing dispatch actions and component props.
+src/services/ — Network layer (api.js) handling external REST API calls.

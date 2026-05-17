@@ -6,7 +6,7 @@ import { SCREENS } from '../constants/screens';
 
 const TitleScreen = ({ navigation }) => {
   return (
-    <LinearGradient colors={['#D8E3D2', '#FDD4D4']} style={styles.container}>
+    <LinearGradient colors={[COLORS.secondaryBg, COLORS.secondaryBg]} style={styles.container}>
       <View style={styles.content}>
         <Image source={{ uri: '../assets/homeimg.png' }} style={styles.image} />
 
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   description: {
     textAlign: 'center',
-    color: '#7C7C7C',
+    color: COLORS.description,
     lineHeight: 22,
     marginBottom: 40,
   },
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 60,
     borderRadius: 15,
   },
-  buttonText: { color: '#FFF', fontWeight: 'bold', fontSize: 18 },
+  buttonText: { color: COLORS.white, fontWeight: 'bold', fontSize: 18 },
 });
 
 export default TitleScreen;

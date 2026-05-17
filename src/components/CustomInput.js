@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingHorizontal: 15,
     marginVertical: 10,
-    // Ефект легкої тіні
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

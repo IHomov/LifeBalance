@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS } from '../constants/colors';
 
 const TaskListItem = memo(({ title, time, status, color, onPress, onLongPress }) => {
-  // console.log(`Rendering task: ${title}`); // Лог для перевірки оптимізації
+  
 
   return (
     <TouchableOpacity 
@@ -26,7 +26,7 @@ const TaskListItem = memo(({ title, time, status, color, onPress, onLongPress })
       </View>
     </TouchableOpacity>
   );
-}); // <-- Зверни увагу: тут має бути }); (закриваємо memo)
+}); 
 
 const styles = StyleSheet.create({
   container: {

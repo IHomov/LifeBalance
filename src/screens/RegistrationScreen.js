@@ -18,7 +18,7 @@ const RegistrationScreen = ({ navigation }) => {
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <LinearGradient
-          colors={['#F0F9FF', '#E0F2FE']}
+          colors={[COLORS.tertiaryBg, COLORS.registrationcolor]}
           style={styles.container}
         >
           <View style={styles.content}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   buttonText: { color: COLORS.white, fontSize: 18, fontWeight: 'bold' },
-  footerText: { marginTop: 20, color: '#7C7C7C' },
+  footerText: { marginTop: 20, color: COLORS.textMain },
 });
 
 export default RegistrationScreen;
