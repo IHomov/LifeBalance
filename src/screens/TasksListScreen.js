@@ -30,6 +30,8 @@ const TasksListScreen = ({ route, navigation }) => {
   const { tasks, deleteTask, toggleTaskComplete } = useApp();
   const { isDark, theme, toggleTheme } = useContext(ThemeContext);
   const [apiTip, setApiTip] = useState('');
+  const [activeTab, setActiveTab] = useState('All');
+
 
   const dates = [
     dayjs().subtract(3, 'day').date(),
@@ -60,9 +62,19 @@ const TasksListScreen = ({ route, navigation }) => {
   }, []);
 
   const filteredTasks = tasks.filter(task => {
-    if (groupName) {
-      return task.groupName === groupName;
+    if (groupName && task.groupName !== groupName) {
+      return false;
     }
+    if (activeTab === 'To do') {
+      return !task.isCompleted && (task.progress === 0 || !task.progress);
+      }
+    if (activeTab === 'In Progress') {
+      return !task.isCompleted && task.progress > 0 && task.progress < 100;
+    }
+    if (activeTab === 'Complete') {
+      return task.isCompleted || task.progress === 100;
+    }
+
     return true;
   });
 
@@ -201,19 +213,27 @@ const TasksListScreen = ({ route, navigation }) => {
 
       {/*Fixing filters */}
       <View style={styles.filters}>
-        <Text
-          style={[
-            styles.filterBtn,
-            styles.activeFilter,
-            { color: theme.accent, borderBottomColor: theme.accent },
-          ]}
-        >
-          All
+  {['All', 'To do', 'In Progress', 'Complete'].map((tab) => {
+    const isSelected = activeTab === tab;
+    return (
+      <TouchableOpacity
+        key={tab}
+        onPress={() => setActiveTab(tab)}
+        style={[
+          styles.filterTabButton,
+          isSelected && { borderBottomColor: theme.accent }
+        ]}
+      >
+        <Text style={[
+          styles.filterBtn,
+          isSelected && [styles.activeFilter, { color: theme.accent }]
+        ]}>
+          {tab}
         </Text>
-        <Text style={styles.filterBtn}>To do</Text>
-        <Text style={styles.filterBtn}>In Progress</Text>
-        <Text style={styles.filterBtn}>Complete</Text>
-      </View>
+      </TouchableOpacity>
+    );
+  })}
+</View>
 
       {/* Список завдань */}
       <FlatList
@@ -265,8 +285,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 25,
   },
-  filterBtn: { color: '#A0AEC0', fontSize: 13, fontWeight: '500' },
-  activeFilter: { borderBottomWidth: 2 },
+  filterBtn: { color: COLORS.time, fontSize: 13, fontWeight: '500' },
+  activeFilter: {fontWeight: 'bold' },
+  filterTabButton: { paddingBottom: 4, borderBottomWidth: 2, borderBottomColor: 'transparent' },
   flatListContainer: { paddingBottom: 40 },
   taskRow: {
     flexDirection: 'row',
@@ -279,7 +300,7 @@ const styles = StyleSheet.create({
     width: 45,
     marginLeft: 10,
     padding: 10,
-    backgroundColor: '#FED7D7',
+    backgroundColor:COLORS.background,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -287,7 +308,7 @@ const styles = StyleSheet.create({
   deleteIcon: { fontSize: 18 },
   emptyText: {
     textAlign: 'center',
-    color: '#A0AEC0',
+    color: COLORS.time,
     marginTop: 50,
     fontSize: 16,
   },
